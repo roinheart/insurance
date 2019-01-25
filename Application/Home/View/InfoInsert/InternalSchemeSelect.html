@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <input type="hidden" class="usertype" value="{:session('userType')}">
+        <div class="BranchInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/BranchSide" />
+        </div>
+        <div class="SellsRoomInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/SellsRoomSide" />
+        </div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>国内旅游信息录入</h1>
+                <ol class="breadcrumb">
+                    <li class="BranchInclude"><a href="{:U('index/BranchIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="SellsRoomInclude"><a href="{:U('index/SellsRoomIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="{:U('InfoInsert/Index')}">信息录入</a></li>
+                    <li><a href="{:U('InfoInsert/InternalSchemeSelect')}">国内旅游方案选择</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-md-12">
+                        <!-- Input addon -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">方案选择</h3>
+                            </div>
+                            <div class="box-body">
+                                <div class="table-responsive">
+                                    <table class="table no-margin">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center;border-color: red;background-color: #eee;">方案编号</th>
+                                                <th style="text-align: center;border-color: red;background-color: #eee;">方案名称</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id='scheme'>
+                                            <script type="text/template" id="tpl">
+                                                {{if( it && it.length>0 ){ }} {{for(var i=0; i
+                                                <it.length; i++){ }} <tr style="text-align: center;">
+                                                    <td width="100px;"><span class="label label-danger">{{=i+1}}</span></td>
+                                                    <td>
+                                                        <button id="id{{=i+1}}" style="width: 100%;background-color: transparent;border: hidden;" onclick="fnSendPirceScheme({{=it[i].id}})">{{=it[i].name}}&nbsp&nbsp<label class="label label-danger">点此进入</label></button>
+                                                        <input type="hidden" value="{{=it[i].name}}" id="schemename{{=it[i].id}}">
+                                                    </td>
+                                                    </tr>
+                                                    {{ } }} {{ } }}
+                                            </script>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <script src="__D__/js/doT.min.js"></script>
+    <script src="__D__/js/jquery.cookie.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    switch ($('.usertype').val()) {
+        case '3':
+            $('.SellsRoomInclude').css('display', 'none');
+            break;
+        case '4':
+            $('.BranchInclude').css('display', 'none');
+            break;
+    }
+    var jsonObj;
+    window.onload = function() {
+        fnAjaxPost();
+    }
+
+    function fnAjaxPost() {
+        $.ajax({
+            type: 'POST',
+            url: "{:U('InfoInsert/getUserPriceScheme')}",
+            data: { 'rang': '1' },
+            success: function(result) {
+                var list = JSON.parse(JSON.stringify(result));
+                jsonObj = [list];
+                var tpl = document.getElementById('tpl').innerHTML;
+                //传递一个有数据的数组进去
+                document.getElementById('scheme').innerHTML = doT.template(tpl)(jsonObj[0]);
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnSendPirceScheme(ele) {
+        $.cookie('scheme', ele, { expires: 1 });
+        $.cookie('schemename', $('#schemename' + ele).val(), { expires: 1 });
+        window.location.replace("{:U('InfoInsert/Internal')}");
+    }
+    </script>
+</body>
+
+</html>

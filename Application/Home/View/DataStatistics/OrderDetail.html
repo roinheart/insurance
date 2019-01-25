@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="__B__/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style type="text/css">
+    .content-wrapper span {
+        color: #000;
+        font-size: 18px;
+        font-family: "微软雅黑";
+    }
+
+    .content-wrapper label {
+        color: #000;
+        font-size: 15px;
+    }
+
+    .travelerinfo .table {
+        border: 2px solid #eee;
+        padding: 10px;
+    }
+    /*a  upload */
+
+    .upload {
+        padding: 4px 10px;
+        height: 30px;
+        line-height: 20px;
+        position: relative;
+        cursor: pointer;
+        color: #000;
+        background: #aaa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+    }
+
+    .upload input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        cursor: pointer;
+    }
+
+    .upload:hover {
+        color: #444;
+        background: #eea;
+        border-color: #ccc;
+        text-decoration: none;
+    }
+    /*修改placeholde颜色*/
+
+    .invalid:-moz-placeholder {
+        /* Mozilla Firefox 4 to 18 */
+        color: red;
+        opacity: 1;
+    }
+
+    .invalid::-moz-placeholder {
+        /* Mozilla Firefox 19+ */
+        color: red;
+        opacity: 1;
+    }
+
+    input.invalid:-ms-input-placeholder {
+        color: red;
+    }
+
+    input.invalid::-webkit-input-placeholder {
+        color: red;
+    }
+
+    .btn-xs {
+        color: #000;
+    }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <input type="hidden" class="usertype" value="{:session('userType')}">
+    <input type="hidden" id='priceshow' value="{:session('priceenable')}">
+    <div class="wrapper">
+        <div class="AdminInclude">
+            <include file="./Public/adminheader" />
+            <include file="./Public/adminside" />
+        </div>
+        <div class="HeadOfficeInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/HeadOfficeTravelSide" />
+        </div>
+        <div class="BranchInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/BranchSide" />
+        </div>
+        <div class="SellsRoomInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/SellsRoomSide" />
+        </div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="">
+            <!-- Content Header (Page header) -->
+            <section id="top" class="content-header">
+                <h1><i class="fa fa-list"></i>&nbsp数据查询</h1>
+                <ol class="breadcrumb">
+                    <li class="AdminInclude"><a href="{:U('index/admindex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="HeadOfficeInclude"><a href="{:U('index/HeadOfficeIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="BranchInclude"><a href="{:U('index/BranchIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="SellsRoomInclude"><a href="{:U('index/SellsRoomIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="AdminInclude"><a href="{:U('DataStatistics/admindex')}"><i class="fa fa-dashboard"></i>数据查询</a></li>
+                    <li class="HeadOfficeInclude"><a href="{:U('DataStatistics/HeadOfficeIndex')}"><i class="fa fa-dashboard"></i>数据查询</a></li>
+                    <li class="BranchInclude"><a href="{:U('DataStatistics/BranchIndex')}"><i class="fa fa-dashboard"></i>数据查询</a></li>
+                    <li class="SellsRoomInclude"><a href="{:U('DataStatistics/SellsRoomIndex')}"><i class="fa fa-dashboard"></i>数据查询</a></li>
+                    <li><a href="#">订单详情</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-md-12">
+                        <!-- Input addon -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title"><b><i class="fa fa-file-text-o"></i>&nbsp订单详情</b></h3>
+                            </div>
+                            <div class="box-body">
+                                <!-- text input -->
+                                <div class="form-group">
+                                    <span style="border: hidden;"><b><i class="fa fa-institution (alias)"></i>&nbsp签发单位</b></span><a class="pull-right" href="#button" style="display: inline-block;">去到底部</a>
+                                    <label style="border: hidden;" class="help-block" style="color: #000;">{$userid}</label>
+                                </div>
+                                <div class="form-group">
+                                    <span style="border: hidden;"><b><i class="fa fa-user"></i>&nbsp签发人员</b></span>
+                                    <label style="border: hidden;" class="help-block " style="color: #000;">{$username}</label>
+                                </div>
+                                <div class="form-group">
+                                    <span style="border: hidden;">
+                                            <b><i class="fa fa-plane"></i>&nbsp旅游线路</b>
+                                        </span>
+                                    <input class="form-control" id="travelline" disabled="disabled" value="{$travelline}">
+                                </div>
+                                <div class="form-group">
+                                    <span style="border: hidden;">
+                                            <b><i class="fa fa-bookmark-o"></i>&nbsp团&nbsp&nbsp队&nbsp号&nbsp</b>
+                                        </span>
+                                    <input class="form-control" type="text" id="teamnum" disabled="disabled" value="{$teamnum}">
+                                </div>
+                                <div class="form-group">
+                                    <span style="border: hidden; ">
+                                            <b><i class="fa fa-user-md"></i>&nbsp导&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp游&nbsp</b>
+                                        </span>
+                                    <input type="text " class="form-control " id="guide" disabled="disabled" value="{$guide}">
+                                </div>
+                                <div class="form-group">
+                                    <span style="border: hidden;display: block;">
+                                            <b><i class="fa fa-calendar-check-o"></i>&nbsp期&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp限&nbsp</b>
+                                        </span> &nbsp&nbsp
+                                    <span id="day" name="day">{$day}&nbsp天</span>
+                                    <span>自</span>
+                                    <input type="text" id="startdate" disabled="disabled" style="text-align: center;width: 120px;" value="{$startdate}">
+                                    <span>至</span>
+                                    <input type="text" id="enddate" disabled="disabled" style="text-align: center;width: 120px;" value="{$enddate}">
+                                    <span>日</span>
+                                </div>
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading" style="text-align: center;">
+                                        <h3 class="panel-title"><b><i class="fa fa-info-circle"></i>&nbsp旅游团信息</b></h3>
+                                    </div>
+                                    <div class="panel-body" id="teaminfo">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">订单编号：</span>
+                                            <span class="form-control pull-right" id="sysnum">{$sysnum}</span>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">产品名称：</span>
+                                            <span class="form-control pull-right" id="schemename">{$schemename}</span>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">合计人数：</span>
+                                            <span class="form-control pull-right" id="total">{$total}</span>
+                                        </div>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">下单时间：</span>
+                                            <span class="form-control pull-right" id="ordertime">{$ordertime}</span>
+                                        </div>
+                                        <div class="input-group" id="divtotalprice">
+                                            <span class="input-group-addon">合计金额：</span>
+                                            <span class="form-control pull-right" id="totalprice">{$pricesum}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <button class="btn btn-info export">导出游客信息</button>&nbsp&nbsp
+                                    <!-- <button class="btn btn-danger del" disabled='disabled'>删除订单</button> -->
+                                </div>
+                                <br>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading" style="text-align: center;">
+                                        <h3 class="panel-title"><b><i class="fa fa-users"></i>&nbsp游客信息</b></h3>
+                                    </div>
+                                    <volist name="list" id="vo">
+                                        <section>
+                                            <div class="travelerinfo">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">姓　　名</span>
+                                                    <span class="form-control"><span>{$vo.name}<i class="fa fa-warning pull-right" style="color:red;"><a href="{:U('InsureCase/ReportCase')}?id={$vo.id}">报案</a></i></span>
+                                                </div>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">证件类别</span>
+                                                    <span class="form-control">{$vo.cardtype}</span>
+                                                </div>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">证件号码</span>
+                                                    <span class="form-control">{$vo.idcard}</span>
+                                                </div>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">出生日期</span>
+                                                    <span class="form-control">{$vo.birthday}</span>
+                                                </div>
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">性　　别</span>
+                                                    <span class="form-control">{$vo.sex}</span>
+                                                </div>
+                                                <br>
+                                            </div>
+                                        </section>
+                                    </volist>
+                                </div>
+                                <hr>
+                                <div id="button" style="text-align: center;">
+                                    <a href="#top">回到顶部</a>
+                                </div>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col -->
+                </div>
+                <!-- /.row -->
+                <!-- 模态框 -->
+                <div class="modal modal-info fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title"><span style="color: #fff;">提示信息：</span></h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="msg"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- 模态框 -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="__B__/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="__B__/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        if ($('#priceshow').val() == '0') {
+            $('#divtotalprice').css('display', 'none');
+        }
+        $('.del').click(function(e) {
+            /* Act on the event */
+            var today=Date.parse(new Date());
+            var startdate=Date.parse(new Date($('#startdate').val()));
+            if (startdate>=today) {
+                $('.del').attr('disabled', false);
+            }
+        });
+        $('.export').click(function(e) {
+            $.ajax({
+                type: 'POST',
+                url: "{:U('DataStatistics/travelerExport')}",
+                data: { 'sysnum': $('#sysnum').text() },
+                success: function(result) {
+                    $("#msg").html('<a href=' + result['fileaddress'] + ' style="color:#fff;">点击下载文件</a>');
+                    $(".modal-info").modal("show");
+                },
+                dataType: 'json'
+            });
+        });
+        switch ($('.usertype').val()) {
+            case '1':
+                $('.HeadOfficeInclude').css('display', 'none');
+                $('.BranchInclude').css('display', 'none');
+                $('.SellsRoomInclude').css('display', 'none');
+                break;
+            case '2':
+                $('.BranchInclude').css('display', 'none');
+                $('.AdminInclude').css('display', 'none');
+                $('.SellsRoomInclude').css('display', 'none');
+                break;
+            case '3':
+                $('.AdminInclude').css('display', 'none');
+                $('.HeadOfficeInclude').css('display', 'none');
+                $('.SellsRoomInclude').css('display', 'none');
+                break;
+            case '4':
+                $('.AdminInclude').css('display', 'none');
+                $('.HeadOfficeInclude').css('display', 'none');
+                $('.BranchInclude').css('display', 'none');
+                break;
+        }
+
+    });
+    </script>
+</body>
+
+</html>

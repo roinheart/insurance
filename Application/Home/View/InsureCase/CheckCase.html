@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="__B__/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <input type="hidden" class="usertype" value="{:session('userType')}">
+        <div class="BranchInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/BranchSide" />
+        </div>
+        <div class="SellsRoomInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/SellsRoomSide" />
+        </div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1><span class="glyphicon glyphicon-list"></span> 报案处理</h1>
+                <ol class="breadcrumb">
+                    <li class="BranchInclude"><a href="{:U('index/BranchIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="SellsRoomInclude"><a href="{:U('index/SellsRoomIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="{:U('InsureCase/index')}">报案处理</a></li>
+                    <li><a href="#">报案查询</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="box box-info col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-info-circle"></i>&nbsp选择查询条件</h3>
+                        </div>
+                        <div class="row">
+                            <div class="box-body col-md-8 col-md-offset-2" style="text-align: center;">
+                                <br>
+                                <br>
+                                <input type="hidden" id="userid" name="userid" value="{:session('id')}">
+                                <div class="input-group input-group-sm" style="border-color: #d2d6de;border-style: solid;border-width: 1px;">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp选择报案日期范围</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp开始日期</span>
+                                    <input type="text" class="form-control" id="reportStartDate" name="reportStartDate" readonly="readonly" required="required" style="text-align: center;">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp结束日期</span>
+                                    <input type="text" class="form-control" id="reportEndDate" name="reportEndDate" readonly="readonly" required="required" style="text-align: center;">
+                                </div>
+                                <div class="input-group input-group-sm" style="border-color: #d2d6de;border-style: solid;border-width: 1px;">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp选择出险日期范围</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp开始日期</span>
+                                    <input type="text" class="form-control" id="accidentStartDate" name="accidentStartDate" readonly="readonly" required="required" style="text-align: center;">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp结束日期</span>
+                                    <input type="text" class="form-control" id="accidentEndDate" name="accidentEndDate" readonly="readonly" required="required" style="text-align: center;">
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i>&nbsp订单号码</span>
+                                    <input type="text" class="form-control forminfo" max="50" id="ordernum" name="ordernum" maxlength="16">
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i>&nbsp游客名称</span>
+                                    <input type="text" class="form-control forminfo" max="50" id="name" name="name" maxlength="50">
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i>&nbsp证件号码</span>
+                                    <input type="text" class="form-control forminfo" max="18" id="idcard" name="idcard" maxlength="18">
+                                </div>
+                                <div class="input-group input-group-sm" style="text-align:center;">
+                                    <span id="msg" style="font-size: 8px;color: red;">&nbsp</span>
+                                </div>
+                                <button type="button" class="btn btn-info check">查 询</button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- ./col -->
+                    <div class="box box-warning col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="glyphicon glyphicon-list-alt"></i>&nbsp报案列表</h3>
+                        </div>
+                        <div class="row">
+                            <div class="box-body col-md-8 col-md-offset-2">
+                                <table id="caselist" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>订单编号</th>
+                                            <th>游客名称</th>
+                                            <th>证件号码</th>
+                                            <th>是否处理</th>
+                                            <th>报案人</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="datalist">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="__B__/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="__B__/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <!-- DataTables -->
+    <script src="__B__/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="__B__/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <script src="__D__/js/doT.min.js"></script>
+    <script src="__D__/js/jquery.cookie.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    var table;
+    // 对Date的扩展，将 Date 转化为指定格式的String
+    // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+    // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+    Date.prototype.Format = function(fmt) { //author: meizz 
+        var o = {
+            "M+": this.getMonth() + 1, //月份 
+            "d+": this.getDate(), //日 
+            "h+": this.getHours(), //小时 
+            "m+": this.getMinutes(), //分 
+            "s+": this.getSeconds(), //秒 
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+            "S": this.getMilliseconds() //毫秒 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    var today = new Date().Format("yyyy-MM-dd");
+    var startdate = new Date(new Date(today).valueOf() - 89 * 86400000).Format("yyyy-MM-dd"); //默认开始时间为90天以前
+    var caseDetailURL = "{:U('InsureCase/detail')}";
+    $(document).ready(function() {
+        $('#reportStartDate,#reportEndDate,#accidentStartDate,#accidentEndDate').css('cursor', 'pointer');
+        switch ($('.usertype').val()) {
+            case '3':
+                $('.SellsRoomInclude').css('display', 'none');
+                break;
+            case '4':
+                $('.BranchInclude').css('display', 'none');
+                break;
+        }
+        //Date picker
+        $('#reportStartDate,#reportEndDate,#accidentStartDate,#accidentEndDate').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            language: "zh-CN",
+            format: "yyyy-mm-dd",
+        });
+        $('.check').click(function(e) {
+            if (!fnEleBorderColorCheck()) { return; }
+            if (table == undefined) {
+                fnAjaxCheck();
+            } else {
+                fnUpdataDT();
+            }
+        });
+        $('#reportStartDate,#accidentStartDate').val(startdate);
+        $('#reportEndDate,#accidentEndDate').val(today);
+
+        $('#reportStartDate,#reportEndDate,#accidentStartDate,#accidentEndDate').blur(function(e) {
+            /* Act on the event */
+            fnDateRule(e);
+        });
+
+        $('#reportStartDate,#reportEndDate,#accidentStartDate,#accidentEndDate').datepicker().on('changeDate', function(e) {
+            fnDateRule(e);
+        });
+        $('#ordernum,#name,#idcard').keyup(function(e) {
+            /* Act on the event */
+            var ele = $(e.target);
+            switch (ele.attr('id')) {
+                case 'ordernum':
+                    fnCheckOrderNo(ele);
+                    break;
+                case 'name':
+                    fnCheckName(ele);
+                    break;
+                case 'idcard':
+                    fnCheckIDCard(ele);
+                    break;
+            }
+        });
+    });
+
+    function fnAjaxCheck() {
+        $.ajax({
+            type: 'POST',
+            url: "{:U('InsureCase/ajaxCheckCase')}",
+            data: { 'userid': $('#userid').val(), 'reportStartDate': $('#reportStartDate').val(), 'reportEndDate': $('#reportEndDate').val(), 'accidentStartDate': $('#accidentStartDate').val(), 'accidentEndDate': $('#accidentEndDate').val(), 'name': $('#name').val(), 'idcard': $('#idcard').val(), 'ordernum': $('#ordernum').val() },
+            success: function(result) {
+                fnInstallDT(eval(result.replace(/\r|\n|\\s| /g, '')));
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnUpdataDT() {
+        table.clear().draw();
+        $.ajax({
+            type: 'POST',
+            url: "{:U('InsureCase/ajaxCheckCase')}",
+            data: { 'userid': $('#userid').val(), 'reportStartDate': $('#reportStartDate').val(), 'reportEndDate': $('#reportEndDate').val(), 'accidentStartDate': $('#accidentStartDate').val(), 'accidentEndDate': $('#accidentEndDate').val(), 'name': $('#name').val(), 'idcard': $('#idcard').val(), 'ordernum': $('#ordernum').val() },
+            success: function(result) {
+                table.rows.add(eval(result.replace(/\r|\n|\\s| /g, ''))).draw();
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnEleBorderColorCheck() {
+        var result = true;
+        $('.forminfo').each(function(index, el) {
+            if ($(el).css('border-color') == 'rgb(255, 0, 0)') {
+                result = false;
+                return false;
+            }
+        });
+        return result;
+    }
+
+    function fnDateRule(e) {
+        var ele = $(e.target);
+        switch (e.type) {
+            case 'changeDate':
+
+                switch (ele.attr('id')) {
+                    case 'accidentStartDate':
+                        var starttamp = new Date($('#accidentStartDate').val()).valueOf();
+                        var endtamp = new Date($('#accidentEndDate').val()).valueOf();
+                        var a = (endtamp - starttamp) / 86400000 + 1;
+                        if (a > 90 || a < 1) {
+                            alert('最大时间间隔不超过90天！');
+                            $('#accidentStartDate').datepicker('setDate', startdate);
+                            return;
+                        }
+                        break;
+                    case 'accidentEndDate':
+                        var starttamp = new Date($('#accidentStartDate').val()).valueOf();
+                        var endtamp = new Date($('#accidentEndDate').val()).valueOf();
+                        var a = (endtamp - starttamp) / 86400000 + 1;
+                        if (a > 90 || a < 1) {
+                            alert('最大时间间隔不超过90天！');
+                            $('#accidentEndDate').datepicker('setDate', today);
+                            return;
+                        }
+                        if (endtamp > new Date(today).valueOf()) {
+                            alert('出险日期不能大于' + today);
+                            $('#accidentEndDate').datepicker('setDate', today);
+                            return;
+                        }
+                        break;
+                    case 'reportStartDate':
+                        var starttamp = new Date($('#reportStartDate').val()).valueOf();
+                        var endtamp = new Date($('#reportEndDate').val()).valueOf();
+                        var a = (endtamp - starttamp) / 86400000 + 1;
+                        if (a > 90 || a < 1) {
+                            alert('最大时间间隔不超过90天！');
+                            $('#reportStartDate').datepicker('setDate', startdate);
+                            return;
+                        }
+                        break;
+                    case 'reportEndDate':
+                        var starttamp = new Date($('#reportStartDate').val()).valueOf();
+                        var endtamp = new Date($('#reportEndDate').val()).valueOf();
+                        var a = (endtamp - starttamp) / 86400000 + 1;
+                        if (a > 90 || a < 1) {
+                            alert('最大时间间隔不超过90天！');
+                            $('#reportEndDate').datepicker('setDate', today);
+                            return;
+                        }
+                        if (endtamp > new Date(today).valueOf()) {
+                            alert('报案日期不能大于' + today);
+                            $('#reportEndDate').datepicker('setDate', today);
+                            return;
+                        }
+                        break;
+                }
+                break;
+            case 'blur':
+                if (ele.val() != '') {
+                    return;
+                }
+                switch (ele.attr('id')) {
+                    case 'reportStartDate':
+                    case 'accidentStartDate':
+                        ele.val(startdate);
+                        break;
+                    case 'reportEndDate':
+                    case 'accidentEndDate':
+                        ele.val(today);
+                        break;
+                }
+                break;
+        }
+    }
+
+    function fnCheckOrderNo(ele) {
+        if (ele.val() == '') {
+            return;
+        }
+        var a = /[2][0-9]{15}/;
+        fnSetBorder(ele, a);
+    }
+
+    function fnCheckName(ele) {
+        if (ele.val() == '') {
+            return;
+        }
+        var a = /(([\u4e00-\u9fa5]{1,})|([a-zA-Z]{2,}))[\s\S]*/;
+        fnSetBorder(ele, a);
+    }
+
+    function fnCheckIDCard(ele) {
+        if (ele.val() == '') {
+            return;
+        }
+        var a = /^([A-Za-z]{1,}[0-9]{3,17})|([1-9]{1}[0-9]{16}[X])|([1-9]{1}[0-9]{17})/;
+        fnSetBorder(ele, a);
+    }
+
+    function fnSetBorder(ele, selector = '') {
+        if (selector != '') {
+            if ($.trim(ele.val()).match(selector) == null) {
+                ele.css('border-color', 'red');
+            } else {
+                ele.css('border-color', '#d2d6de');
+            }
+        } else {
+            ele.css('border-color', selector);
+        }
+
+    }
+
+    function fnInstallDT(data) {
+        table = $('#caselist').DataTable({
+            "ordering": true,
+            "order": [0, 'desc'],
+            "data": data,
+            "columns": [
+                { data: 'sysnum' },
+                { data: 'travelername' },
+                { data: 'idcard' },
+                { data: 'checked' },
+                { data: 'reportname' }
+            ],
+            "pagingType": "full",
+            "language": {
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sZeroRecords": "没有匹配结果",
+                "emptyTable": "当前无记录",
+                "infoEmpty": "当前无记录",
+                "info": " 当前第 _PAGE_ / _PAGES_ 页",
+                "search": "在表格中搜索：_INPUT_",
+                "lengthMenu": '每页显示 <select>' +
+                    '<option value="10">10</option>' +
+                    '<option value="20">20</option>' +
+                    '<option value="30">30</option>' +
+                    '<option value="40">40</option>' +
+                    '<option value="50">50</option>' +
+                    '<option value="100">100</option>' +
+                    '<option value="-1">All</option>' +
+                    '</select> 条记录',
+                "paginate": {
+                    "previous": "上一页",
+                    "next": "下一页",
+                    "first": "第一页",
+                    "last": "最后一页"
+                }
+            },
+            "columnDefs": [{
+                    "targets": 0,
+                    "data": "id",
+                    "render": function(data, type, full, meta) {
+                        return "<a href=" + caseDetailURL + "?id=" + full['id'] + '>' + full['sysnum'] + '</a>';
+                    }
+                },
+                {
+                    "targets": 3,
+                    "data": "checked",
+                    "render": function(data, type, full, meta) {
+                        if (full['checked'] == '0') {
+                            return '未处理';
+                        } else {
+                            return '已处理';
+                        }
+                    }
+                }
+            ]
+        });
+    }
+    </script>
+</body>
+
+</html>

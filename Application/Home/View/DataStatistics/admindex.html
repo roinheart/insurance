@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="__B__/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style>
+    .datetext {
+        background-color: #ddd;
+    }
+
+    .table>tbody>tr>td {
+        text-align: center;
+    }
+    /* dataTables表头居中 */
+
+    .table>thead:first-child>tr:first-child>th {
+        text-align: center;
+    }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <include file="./Public/adminheader" />
+        <include file="./Public/adminside" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="">
+            <!-- Content Header (Page header) -->
+            <section id="top" class="content-header">
+                <h1><i class="fa fa-list-alt"></i>&nbsp订单查询</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{:U('index/admindex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="{:U('DataStatistics/admindex')}">数据查询</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- column -->
+                    <!-- Input addon -->
+                    <div class="box box-info col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-info-circle"></i>&nbsp订单信息</h3>
+                        </div>
+                        <div class="row">
+                            <div class="box-body col-md-8 col-md-offset-2" style="text-align: center;">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i>&nbsp&nbsp&nbsp查询旅行社</span>
+                                    <input type="text" class="form-control" max="50" id="searchName" name="searchName">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat checktravel"><i class="glyphicon glyphicon-search"></i></button>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">&nbsp<i class="fa fa-bank (alias)"></i>&nbsp选择旅行社</span>
+                                    <select class="form-control" name="id" id="id">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
+                                <br>
+                                <label><i class="fa fa-calendar"></i>&nbsp旅行起止日期</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon datetext">开始日期</span>
+                                    <input type="text" class="form-control" id="startdate" name="startdate" required="required" style="text-align: center;">
+                                    <span class="input-group-addon datetext">结束日期</span>
+                                    <input type="text" class="form-control" id="enddate" name="enddate" required="required" style="text-align: center;">
+                                </div>
+                                <br>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i>&nbsp&nbsp&nbsp游客名称</span>
+                                    <input type="text" class="form-control" max="50" id="name" name="name">
+                                </div>
+                                <br>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-credit-card"></i>&nbsp证件号码</span>
+                                    <input type="text" class="form-control" max="18" id="idcard" name="idcard">
+                                </div>
+                                <br>
+                                <button type="button" class="btn btn-info check">查 询</button>
+                                <button type="button" class="btn btn-info export">导 出</button>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <div class="box box-warning col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-list"></i>&nbsp订单列表</h3>
+                        </div>
+                        <div class="row">
+                            <div class="box-body col-md-8 col-md-offset-2">
+                                <table id="orderlist" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>订单编号</th>
+                                            <th>签发人员</th>
+                                            <th>团队号</th>
+                                            <th>订单人数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="datalist">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    </tfoot>
+                                </table>
+                                <!-- /.box -->
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- 模态框 -->
+        <div class="modal modal-info fade" id="modal-info">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title"><i class="fa fa-info-circle"></i>&nbsp提示信息：</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="msg"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline pull-left modalbutton" data-dismiss="modal">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- 模态框 -->
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="__B__/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="__B__/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <!-- DataTables -->
+    <script src="__B__/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="__B__/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script src="__Public__/js/insure.js"></script>
+    <!--     <script src="__D__/js/xlsx.full.min.js"></script> -->
+    <!-- <script src="http://oss.sheetjs.com/js-xlsx/xlsx.full.min.js"></script> -->
+    <script type="text/javascript">
+    var SelectDefaultOption = '<option value=""></option>';
+    var table;
+    $(document).ready(function() {
+
+        $('.modalbutton').click(function(event) {
+            fnModalClosed($('#msg').text());
+        });
+        $('.checktravel').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            fnAjaxPost();
+        });
+        $('#startdate,#enddate').datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            language: "zh-CN",
+            format: "yyyy-mm-dd",
+        });
+        var date = fnSetDate('today');
+        $('#startdate').val(fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate()));
+        var date = fnSetDate('enddate');
+        var date = fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate());
+        $('#enddate').val(date);
+        $('#startdate,#enddate').change(function(event) {
+            /* Act on the event */
+            var d1 = new Date($('#startdate').val().replace(/\-/g, "\/"));
+            var d2 = new Date($('#enddate').val().replace(/\-/g, "\/"));
+            if (d2 - d1 > 60 * 86400000) {
+                $("#msg").text('旅游开始时间和结束时间最大不得超过60天。');
+                $("#modal-info").modal("show");
+            } else if (d1 >= d2) {
+                $("#msg").text('开始日期不得大于结束日期。');
+                $("#modal-info").modal("show");
+            }
+        });
+        $('.check').click(function(e) {
+            if (table == undefined) {
+                fnAjaxCheck();
+            } else {
+                fnUpdataDT();
+            }
+        });
+        $('.export').click(function(e) {
+            if (table == undefined) {
+                $("#msg").text('请查询所需数据再导出。');
+                $("#modal-info").modal("show");
+                return;
+            }
+            fnExport()
+        });
+    });
+
+    function del(obj) {
+        if (confirm('确认删除？')) {
+            var data = { "id": $(obj).attr('id') };
+            $.ajax({
+                type: 'POST',
+                url: "{:U('DataOperation/ajaxDel')}",
+                data: data,
+                success: function(result) {
+                    if (result) {
+                        alert('删除成功');
+                    }else{
+                        alert('删除失败');
+                    }
+                },
+                dataType: 'json'
+            });
+        }
+    }
+
+    function fnModalClosed(str) {
+        switch (str) {
+            case '旅游开始时间和结束时间最大不得超过60天。':
+                var date = fnSetDate('startdate');
+                $('#startdate').val(fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate()));
+                var date = fnSetDate('today');
+                $('#enddate').val(fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate()));
+                break;
+            case '开始日期不得大于结束日期。':
+                var date = fnSetDate('startdate');
+                $('#startdate').val(fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate()));
+                var date = fnSetDate('today');
+                $('#enddate').val(fnAppendzero(date.getFullYear()) + "-" + fnAppendzero(date.getMonth() + 1) + "-" + fnAppendzero(date.getDate()));
+                break;
+        }
+    }
+
+    function fnSetDate(str) {
+        var today = new Date();
+        switch (str) {
+            case 'enddate':
+                var enddate = new Date(today.getTime() + (50 * 86400000));
+                return enddate;
+                break;
+            case 'today':
+                today = new Date(today.getFullYear() + "/" + (today.getMonth() + 1) + "/" + today.getDate());
+                return today
+                break;
+        }
+    }
+
+    function fnExport() {
+        var id = new Array();
+        var username = new Array();
+        var teamnum = new Array();
+        var total = new Array();
+        for (var i = table.context[0].aoData.length - 1; i >= 0; i--) {
+            if (i != 0) {
+                id = id + JSON.stringify(table.context[0].aoData[i]._aData.id).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.id).length - 2) + ',';
+                username = username + JSON.stringify(table.context[0].aoData[i]._aData.username).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.username).length - 2) + ',';
+                teamnum = teamnum + JSON.stringify(table.context[0].aoData[i]._aData.teamnum).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.teamnum).length - 2) + ',';
+                total = total + JSON.stringify(table.context[0].aoData[i]._aData.total).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.total).length - 2) + ',';
+            } else {
+                id = id + JSON.stringify(table.context[0].aoData[i]._aData.id).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.id).length - 2);
+                username = username + JSON.stringify(table.context[0].aoData[i]._aData.username).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.username).length - 2);
+                teamnum = teamnum + JSON.stringify(table.context[0].aoData[i]._aData.teamnum).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.teamnum).length - 2);
+                total = total + JSON.stringify(table.context[0].aoData[i]._aData.total).substr(1, JSON.stringify(table.context[0].aoData[i]._aData.total).length - 2);
+
+            }
+        }
+        id = [id];
+        username = [username];
+        teamnum = [teamnum];
+        total = [total];
+        var data = { "id": id, "username": username, "teamnum": teamnum, "total": total };
+        $.ajax({
+            type: 'POST',
+            url: "{:U('DataStatistics/export')}",
+            data: data,
+            success: function(result) {
+                $("#msg").html('<a href=' + result['fileaddress'] + ' style="color:#fff;">点击下载文件</a>');
+                $("#modal-info").modal("show");
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnAjaxCheck() {
+        $.ajax({
+            type: 'POST',
+            url: "{:U('DataStatistics/adminCheck')}",
+            data: { 'id': $("#id").val(), 'startdate': $('#startdate').val(), 'enddate': $('#enddate').val(), 'name': $('#name').val(), 'idcard': $('#idcard').val() },
+            success: function(result) {
+                fnInstallDT(eval(result.replace(/\r|\n|\\s| /g, '')));
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnUpdataDT(argument) {
+        table.clear().draw();
+        $.ajax({
+            type: 'POST',
+            url: "{:U('DataStatistics/adminCheck')}",
+            data: { 'id': $("#id").val(), 'startdate': $('#startdate').val(), 'enddate': $('#enddate').val(), 'name': $('#name').val(), 'idcard': $('#idcard').val() },
+            success: function(result) {
+                table.rows.add(eval(result.replace(/\r|\n|\\s| /g, ''))).draw();
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnInstallDT(data) {
+        table = $('#orderlist').DataTable({
+            "ordering": true,
+            "order": [0, 'desc'],
+            "data": data,
+            "columns": [
+                { data: 'id' },
+                { data: 'username' },
+                { data: 'teamnum' },
+                { data: 'total' }
+            ],
+            "pagingType": "full",
+            "language": {
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sZeroRecords": "没有匹配结果",
+                "emptyTable": "当前无记录",
+                "infoEmpty": "当前无记录",
+                "info": " 当前第 _PAGE_ / _PAGES_ 页",
+                "search": "在表格中搜索：_INPUT_",
+                "lengthMenu": '每页显示 <select>' +
+                    '<option value="10">10</option>' +
+                    '<option value="20">20</option>' +
+                    '<option value="30">30</option>' +
+                    '<option value="40">40</option>' +
+                    '<option value="50">50</option>' +
+                    '<option value="100">100</option>' +
+                    '<option value="-1">All</option>' +
+                    '</select> 条记录',
+                "paginate": {
+                    "previous": "上一页",
+                    "next": "下一页",
+                    "first": "第一页",
+                    "last": "最后一页"
+                }
+            },
+            "columnDefs": [{
+                "targets": 0,
+                "data": "id",
+                "render": function(data, type, full, meta) {
+                    return "<a href={:U('DataStatistics/OrderDetail')}?no=" + data + '>' + data + "</a>&nbsp&nbsp&nbsp<button class='btn btn-danger' id='" + data + "' onclick='return del(this);'>删除</button>";
+                }
+            }]
+        });
+    }
+
+    function fnAjaxPost() {
+        $.ajax({
+            type: 'POST',
+            url: "{:U('DataStatistics/getUserId')}",
+            data: { 'name': $("#searchName").val() },
+            success: function(result) {
+                var userlist = JSON.parse(JSON.stringify(result));
+                fnGetJson(userlist);
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnGetJson(userlist) {
+        jsonObj = [userlist];
+        var userlistoptions = SelectDefaultOption;
+        $.each(jsonObj, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                // <option value="1 ">option 1</option>
+                userlistoptions = userlistoptions + "<option value=" + obj2.id + ">" + obj2.name + "</option>";
+            });
+        });
+        $("#id").html(userlistoptions);
+        $("#msg").text('一共查询到 ' + jsonObj[0].length + ' 个账户。');
+        $("#modal-info").modal("show");
+    }
+    </script>
+</body>
+
+</html>

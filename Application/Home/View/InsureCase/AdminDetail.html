@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="__B__/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <style type="text/css">
+
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <input type="hidden" class="usertype" value="{:session('userType')}">
+        <include file="./Public/adminheader" />
+        <include file="./Public/adminside" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1><span class="glyphicon glyphicon-list"></span> 报案处理</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{:U('index/admindex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="{:U('InsureCase/index')}">报案处理</a></li>
+                    <li><a href="{:U('InsureCase/CheckCase')}">报案查询</a></li>
+                    <li><a href="#">详细信息</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="box box-info col-md-12">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><i class="fa fa-info-circle"></i>&nbsp报案详细信息</h3>
+                        </div>
+                        <div class="row">
+                            <div class="box-body col-md-8 col-md-offset-2" style="text-align: center;">
+                                
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp报案日期</span>
+                                    <span id="reportDate" class="form-control" style="text-align:center;">{$reportDate}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp出险日期</span>
+                                    <span id="accidentDate" class="form-control" style="text-align:center;">{$accidentDate}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk" style="font-size: 13px;"></i>&nbsp订单编号</span>
+                                    <span id="sysNum" class="form-control" style="text-align:center;">{$sysNum}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope" style="font-size: 13px;"></i>&nbsp发送短信</span>
+                                    <span id="sendMsg" class="form-control" style="text-align:center;">{$sendMsg}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker" style="font-size: 13px;"></i>&nbsp发生地点</span>
+                                    <span id="accidentPosition" class="form-control" style="text-align:center;">{$accidentPosition}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-remove" style="font-size: 13px;"></i>&nbsp是否死亡</span>
+                                    <span id="gameOver" class="form-control" style="text-align:center;">{$gameOver}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="font-size: 13px;"></i>&nbsp游客姓名</span>
+                                    <span id="travelerName" class="form-control" style="text-align:center;">{$travelerName}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" style="font-size: 13px;"></i>&nbsp联系电话</span>
+                                    <span id="travelerMobile" class="form-control" style="text-align:center;">{$travelerMobile}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card" style="font-size: 13px;"></i>&nbsp证件号码</span>
+                                    <span id="idNo" class="form-control" style="text-align:center;">{$idNo}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-fire" style="font-size: 13px;"></i>&nbsp受伤部位</span>
+                                    <span id="injured" class="form-control" style="text-align:center;">{$injured}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="font-size: 13px;"></i>&nbsp报案人员</span>
+                                    <span id="reportName" class="form-control" style="text-align:center;">{$reportName}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" style="font-size: 13px;"></i>&nbsp联系电话</span>
+                                    <span id="reportMobile" class="form-control" style="text-align:center;">{$reportMobile}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user" style="font-size: 13px;"></i>&nbsp家属姓名</span>
+                                    <span id="familyName" class="form-control" style="text-align:center;">{$familyName}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone" style="font-size: 13px;"></i>&nbsp联系电话</span>
+                                    <span id="familyMobile" class="form-control" style="text-align:center;">{$familyMobile}</span>
+                                </div>
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-check" style="font-size: 13px;"></i>&nbsp处理状态</span>
+                                    <span id="status" class="form-control" style="text-align:center;">{$status}</span>
+                                </div>
+                                <br>
+                                <div>
+                                    <span class="pull-left">&nbsp&nbsp&nbsp<i class="fa fa-calendar" style="font-size: 13px;"></i>&nbsp备注:</span>
+                                    <br>
+                                    <textarea id="remarks" name="remarks" rows="4" readonly style="width: 100%;resize: none;">{$remarks}</textarea>
+                                </div>
+                                <br>
+                                <form role="form" id="submitForm" name="submitForm" action="{:U('InsureCase/submit')}" method="POST" enctype="multipart/form-data" onsubmit="return fnSubmit()">
+                                    <input type="hidden" name="userid" value='{$id}'>
+                                    <button type="submit" class="btn btn-info">处 理</button>
+                                    <a href="{:U('InsureCase/AdminCheckCase')}" class="btn btn-info export">退 出</a>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="__B__/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="__B__/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-CN.js"></script>
+    <!-- DataTables -->
+    <script src="__B__/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="__B__/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <script src="__D__/js/doT.min.js"></script>
+    <script src="__D__/js/jquery.cookie.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    function fnSubmit() {
+        if (confirm('确认处理')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    </script>
+</body>
+
+</html>

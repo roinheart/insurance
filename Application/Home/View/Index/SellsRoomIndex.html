@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style type="text/css">
+    .small-box h3 {
+        font-size: 30px;
+        margin: 15px 15px 10px 10px;
+    }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <include file="./Public/travelheader" />
+        <include file="./Public/SellsRoomSide" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    首 页
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                </ol>
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner insert">
+                                <h3>信息录入</h3>
+                            </div>
+                            <div class="icon insert">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="small-box-footer insert">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner check">
+                                <h3>订单查询</h3>
+                            </div>
+                            <div class="icon check">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <div class="small-box-footer check">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-xs-12">
+                        <div style="text-align: center;">
+                            <h3><b>重要提示</b></h3>
+                            <p><span style="color: red;">"未成年人方案"</span>已全部停用</p>
+                            <p><span style="color: red;">成年人，未成年人一个订单即可上传</span></p>
+                            <p>
+                                <b>如有不清楚或者其他问题，请直接的QQ：2364990546 (意外险)</b>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                </div>
+        </aside>
+        </div>
+        <!-- ./wrapper -->
+        <!-- jQuery 3 -->
+        <script src="__B__/jquery/dist/jquery.min.js"></script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="__D__/js/adminlte.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('.insert').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                window.location.href = "{:U('InfoInsert/index')}";
+            });
+            $('.check').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                window.location.href = "{:U('DataStatistics/SellsRoomIndex')}";
+            });
+            $('.insert,.check').css('cursor', 'pointer');
+        });
+        </script>
+</body>
+
+</html>

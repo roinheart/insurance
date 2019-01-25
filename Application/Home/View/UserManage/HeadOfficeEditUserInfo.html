@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <include file="./Public/travelheader" />
+        <include file="./Public/HeadOfficeTravelSide" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>用户管理</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{:U('index/HeadOfficeIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="#">编辑用户</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-md-12">
+                        <!-- Input addon -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">编辑用户</h3>
+                            </div>
+                            <div class="box-body col-lg-3 col-lg-offset-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">&nbsp<i class="glyphicon glyphicon-search"></i></span>
+                                    <input type="text" class="form-control" max="25" id="searchName" name="searchName">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-info btn-flat" onclick="fnAjaxPost();">查询</button>
+                                    </span>
+                                </div>
+                                <br>
+                                <form form name="serchform" action="{:U('UserManage/editUser')}" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>选择查询到的用户进行编辑</label>
+                                        <select class="form-control" name="id" id="id" onchange="fnPutAttr(this);">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&nbsp<i class="fa fa-unlock-alt"></i>&nbsp</span>
+                                        <div class="form-group">
+                                            <input type="text" value="" style="position: absolute;z-index: -1;" disabled>
+                                            <input type="password" value="" style="position: absolute;z-index: -1;" disabled>
+                                            <input type="password" required="required" class="form-control" id="password" placeholder="用户登录密码" autocomplete="new-password" name="password">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&nbsp<i class="fa fa-unlock-alt"></i>&nbsp</span>
+                                        <div class="form-group">
+                                            <input type="password" required="required" class="form-control" id="confirmpwd" placeholder="再次输入登录密码" autocomplete="new-password" onblur="fnCheckPWD();">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- /input-group -->
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-university"></i></span>
+                                        <div class="form-group">
+                                            <input type="text" required="required" class="form-control" id="name" name="name" placeholder="旅行社名称">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- /input-group -->
+                                    <div class="input-group">
+                                        <span class="input-group-addon">&nbsp<i class="fa fa-phone-square"></i>&nbsp</span>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="mobile" name="mobile" placeholder="联系电话">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- /input-group111111 -->
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                                        &nbsp<i class="fa fa-envelope"></i>&nbsp
+                                                    </span>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="email" name="email" placeholder="电子邮件">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <!-- /input-group -->
+                                    <div class="input-group">
+                                        <span class="input-group-addon">禁用此帐号</span>
+                                        <div class="form-group">
+                                            <select class="form-control" name="onOff" id="onOff">
+                                                <option value=""></option>
+                                                <option value="1">是</option>
+                                                <option value="0">否</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <input id="submit" disabled="true" type="submit" class="btn bg-navy btn-flat form-control" value="确认">
+                                </form>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col -->
+                </div>
+                <!-- /.row -->
+                <!-- 模态框 -->
+                <div class="modal modal-info fade" id="modal-info">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">查询提示：</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>一共查询到：<b><span style="color: red;" id="count"></span></b>&nbsp个账户，选择帐号进行编辑</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- 模态框 -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <script type="text/javascript">
+    var SelectDefaultOption = '<option value="">选择帐号</option>';
+    var jsonObj;
+    $(document).ready(function() {
+
+
+    });
+
+    function fnClearEle() {
+        $("#password").val("");
+        $("#confirmpwd").val("");
+        $("#name").val("");
+        $("#mobile").val("");
+        $("#email").val("");
+        $("#onOff").val("");
+        $("#submit").attr("disabled", true);
+    }
+
+    function fnAjaxPost() {
+        fnClearEle();
+        $.ajax({
+            type: 'POST',
+            url: "{:U('UserManage/getUserId')}",
+            data: { 'name': $("#searchName").val() },
+            success: function(result) {
+                //返回身份证信息
+                var userlist = JSON.parse(JSON.stringify(result));
+                fnGetJson(userlist);
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnGetJson(userlist) {
+        jsonObj = [userlist];
+        var userlistoptions = SelectDefaultOption;
+        var userlistarray = new Array();
+        $.each(jsonObj, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                // <option value="1 ">option 1</option>
+                userlistoptions = userlistoptions + "<option value=" + obj2.id + ">" + obj2.name + "</option>";
+            });
+        });
+        $("#id").html(userlistoptions);
+        $("#count").text(jsonObj[0].length);
+        $("#modal-info").modal("show");
+    }
+
+    function fnCheckPWD() {
+        if ($("#password").val() != $("#confirmpwd").val()) {
+            alert("密码不一致，请重新输入！");
+            $("#password").val("");
+            $("#confirmpwd").val("");
+        }
+    }
+
+    function fnPutAttr(ele) {
+        if ($(ele).val() == "") {
+            fnClearEle();
+        }
+        $.each(jsonObj, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                if (obj2.id == $(ele).val()) {
+                    $("#password").val(obj2.password);
+                    $("#confirmpwd").val(obj2.password);
+                    $("#name").val(obj2.name);
+                    $("#mobile").val(obj2.mobile);
+                    $("#email").val(obj2.email);
+                    if (obj2.enable == "0") {
+                        $("#onOff").val("1");
+                    } else {
+                        $("#onOff").val("0");
+                    }
+                    $("#submit").attr("disabled", false);
+                }
+            });
+        });
+    }
+    </script>
+</body>
+
+</html>

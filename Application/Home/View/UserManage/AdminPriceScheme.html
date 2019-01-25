@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="__B__/morris.js/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="__B__/jvectormap/jquery-jvectormap.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="__B__/bootstrap-daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="__P__/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <include file="./Public/adminheader" />
+        <include file="./Public/adminside" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>用户管理</h1>
+                <ol class="breadcrumb">
+                    <li><a href="{:U('index/admindex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="{:U('UserManage/index')}">用户管理</a></li>
+                    <li><a href="#">价格设置</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-md-12">
+                        <!-- Input addon -->
+                        <div class="box box-info">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">用户信息查询</h3>
+                                <p>方案设置说明：</p>
+                                <p>国内方案设置‘方案名称’必须按照如下格式：国内10万 或 国内20万 或 国内30万</p>
+                                <p>出境方案设置‘方案名称’必须按照如下格式：出入境30万 或 出入境40万</p>
+                                <p>未成年人方案设置‘方案名称’境内，出入境方案均设置为：未成年人方案</p>
+                                <p style="color: red;">方案名称一定严格检查，出错会造成自动录单失败和未成年人录入失败！切记！</p>
+                            </div>
+                            <div class="box-body col-lg-3 col-lg-offset-4">
+                                <div class="input-group input-group-sm">
+                                    <span class="input-group-addon">&nbsp<i class="glyphicon glyphicon-search"></i></span>
+                                    <input type="text" class="form-control" max="25" id="searchName" name="searchName">
+                                    <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-info btn-flat" onclick="fnAjaxPost();">查询</button>
+                                                        </span>
+                                </div>
+                                <br>
+                                <form form name="serchform" action="{:U('UserManage/setPriceScheme')}" method="POST" enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label>选择用户</label>
+                                        <select class="form-control" name="id" id="id" onchange="fnAjaxPostGetPirceScheme();" required="required">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>设置或编辑价格方案</label>
+                                        <select class="form-control" name="scheme" id="scheme" onchange="fnPutAttr(this);" required="required">
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                    <div class="box box-success">
+                                        <div class="box-header with-border" style="background-color: #eee;">
+                                            <h3 class="box-title">方案设置</h3>
+                                        </div>
+                                        <div class="box-body" style="background-color: #eee;">
+                                            <div class="form-group">
+                                                <label>设置方案类型</label>
+                                                <select class="form-control" name="rang" id="rang" required="required">
+                                                    <option value="" selected="selected"></option>
+                                                    <option value="1">境内</option>
+                                                    <option value="0">出境</option>
+                                                </select>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group11111 -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp<i class="fa fa-registered"></i>&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" required="required" class="form-control" id="name" name="name" placeholder="方案名称">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp&nbsp<i class="fa fa-rmb (alias)"></i>&nbsp&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" onkeyup="num(this)" required="required" class="form-control" id="price1" name="price1" placeholder="价格1">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp&nbsp<i class="fa fa-rmb (alias)"></i>&nbsp&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" onkeyup="num(this)" required="required" class="form-control" id="price2" name="price2" placeholder="价格2">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp&nbsp<i class="fa fa-rmb (alias)"></i>&nbsp&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" onkeyup="num(this)" required="required" class="form-control" id="price3" name="price3" placeholder="价格3">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp&nbsp<i class="fa fa-rmb (alias)"></i>&nbsp&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" onkeyup="num(this)" required="required" class="form-control" id="price4" name="price4" placeholder="价格4">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <!-- /input-group -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon">
+                                                        &nbsp&nbsp<i class="fa fa-rmb (alias)"></i>&nbsp&nbsp
+                                                    </span>
+                                                <div class="form-group">
+                                                    <input type="text" onkeyup="num(this)" required="required" class="form-control" id="price5" name="price5" placeholder="价格5">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <input type="hidden" id="hiderang" name="hiderang" value="">
+                                            <input id="submit" type="submit" class="btn bg-navy btn-flat form-control" value="确认">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!--/.col -->
+                </div>
+                <!-- /.row -->
+                <!-- 模态框 -->
+                <div class="modal modal-info fade" id="modal-info">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">查询提示：</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>一共查询到：<b><span style="color: red;" id="count"></span></b>&nbsp<span id="contents"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">关闭</button>
+                            </div>
+                        </div>
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+                <!-- 模态框 -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <!-- jQuery 3 -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="__B__/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+    $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Morris.js charts -->
+    <script src="__B__/raphael/raphael.min.js"></script>
+    <script src="__B__/morris.js/morris.min.js"></script>
+    <!-- Sparkline -->
+    <script src="__B__/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="__P__/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="__P__/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="__B__/jquery-knob/dist/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="__B__/moment/min/moment.min.js"></script>
+    <script src="__B__/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- datepicker -->
+    <script src="__B__/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="__P__/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="__B__/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="__B__/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="__D__/js/pages/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    var SelectDefaultOption = '<option value="">选择帐号</option>';
+    var newSchemeOption = '<option value="new">新方案</option>';
+    var jsonObj, jsonObj2;
+    $(document).ready(function() {
+
+    });
+    $("#rang").change(function() {
+        $("#hiderang").val($("#rang option:selected").val());
+        switch ($("#rang option:selected").val()) {
+            case "0":
+                $("#price5").attr("disabled", true);
+                break;
+            case "1":
+                $("#price5").attr("disabled", false);
+                break;
+            case '':
+                $("#price5").attr("disabled", false);
+                break;
+        }
+    });
+
+    function fnClearEle() {
+        $("#name").val("");
+        $("#price1").val("");
+        $("#price2").val("");
+        $("#price3").val("");
+        $("#price4").val("");
+        $("#price5").val("");
+        $("#rang").val("");
+        $("#rang").attr("disabled", false);
+    }
+
+    function fnAjaxPost() {
+        fnClearEle();
+        $.ajax({
+            type: 'POST',
+            url: "{:U('UserManage/getUserId')}",
+            data: { 'name': $("#searchName").val(), 'page': 'price' },
+            success: function(result) {
+                //返回身份证信息
+                var userlist = JSON.parse(JSON.stringify(result));
+                fnGetJson(userlist);
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnAjaxPostGetPirceScheme() {
+        fnClearEle();
+        $.ajax({
+            type: 'POST',
+            url: "{:U('UserManage/getUserPriceScheme')}",
+            data: { 'name': $("#id").val(), 'page': 'price' },
+            success: function(result) {
+                //返回身份证信息
+                var schemeList = JSON.parse(JSON.stringify(result));
+                fnGetJsonSchemeList(schemeList);
+            },
+            dataType: 'json'
+        });
+    }
+
+    function fnGetJsonSchemeList(schemelist) {
+        jsonObj2 = [schemelist];
+        var schemelistoptions = newSchemeOption;
+        if (schemelist.length == 0) {
+            $("#scheme").html(schemelistoptions);
+            return;
+        }
+        $.each(jsonObj2, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                // <option value="1 ">option 1</option>
+                schemelistoptions = schemelistoptions + "<option value=" + obj2.id + ">" + obj2.name + "</option>";
+            });
+        });
+        $("#scheme").html(schemelistoptions);
+        $("#count").text(jsonObj2[0].length);
+        $("#contents").text("个方案。");
+        $("#modal-info").modal("show");
+    }
+
+    function fnGetJson(userlist) {
+        jsonObj = [userlist];
+        var userlistoptions = SelectDefaultOption;
+        var userlistarray = new Array();
+        $.each(jsonObj, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                // <option value="1 ">option 1</option>
+                userlistoptions = userlistoptions + "<option value=" + obj2.id + ">" + obj2.name + "</option>";
+            });
+        });
+        $("#id").html(userlistoptions);
+        $("#count").text(jsonObj[0].length);
+        $("#contents").text("个账户，选择帐号进行编辑");
+        $("#modal-info").modal("show");
+    }
+
+
+    function fnPutAttr(ele) {
+        if ($(ele).val() == "new") {
+            fnClearEle();
+            return;
+        }
+        $.each(jsonObj2, function(idx, obj1) {
+            $.each(obj1, function(idx, obj2) {
+                if (obj2.id == $(ele).val()) {
+                    $.each(obj2, function(idx, obj3) {
+                        switch (idx) {
+                            case 'name':
+                                $("#name").val(obj3);
+                                break;
+                            case 'price1':
+                                $("#price1").val(obj3);
+                                break;
+                            case 'price2':
+                                $("#price2").val(obj3);
+                                break;
+                            case 'price3':
+                                $("#price3").val(obj3);
+                                break;
+                            case 'price4':
+                                $("#price4").val(obj3);
+                                break;
+                            case 'price5':
+                                $("#price5").val(obj3);
+                                break;
+                            case 'rang':
+                                $("#rang").val(obj3);
+                                $("#hiderang").val(obj3);
+                                $("#rang").attr("disabled", true);
+                                if (obj3 == 0) {
+                                    $("#price5").val("");
+                                    $("#price5").attr('disabled', true);
+                                }
+                                break;
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    function num(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个点, 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+    }
+    </script>
+</body>
+
+</html>

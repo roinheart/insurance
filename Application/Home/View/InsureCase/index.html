@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="__B__/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Bootstrap time Picker -->
+    <link rel="stylesheet" href="__P__/timepicker/bootstrap-timepicker.min.css">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="__B__/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <style type="text/css">
+    .small-box h3 {
+        font-size: 30px;
+        margin: 15px 15px 10px 10px;
+    }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <input type="hidden" class="usertype" value="{:session('userType')}">
+        <div class="BranchInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/BranchSide" />
+        </div>
+        <div class="SellsRoomInclude">
+            <include file="./Public/travelheader" />
+            <include file="./Public/SellsRoomSide" />
+        </div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="background-color: #ffffff;">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1><span class="glyphicon glyphicon-list"></span> 报案处理</h1>
+                <ol class="breadcrumb">
+                    <li class="BranchInclude"><a href="{:U('index/BranchIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li class="SellsRoomInclude"><a href="{:U('index/SellsRoomIndex')}"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                    <li><a href="#">报案处理</a></li>
+                </ol>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner internal">
+                                <h3>报案录入</h3>
+                            </div>
+                            <div class="icon internal">
+                                <i class="fa fa-rmb"></i>
+                            </div>
+                            <div class="small-box-footer internal">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-green">
+                            <div class="inner foreign">
+                                <h3>报案查询</h3>
+                            </div>
+                            <div class="icon foreign">
+                                <i class="fa fa-dollar"></i>
+                            </div>
+                            <div href="#" class="small-box-footer foreign">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+    </div>
+    <!-- ./wrapper -->
+    <script src="__B__/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- bootstrap datepicker -->
+    <script src="__B__/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="__B__/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <!-- bootstrap time picker -->
+    <script src="__P__/timepicker/bootstrap-timepicker.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="__D__/js/adminlte.min.js"></script>
+    <script src="__D__/js/doT.min.js"></script>
+    <script src="__D__/js/jquery.cookie.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="__D__/js/demo.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('.internal').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            window.location.href = " {: U('InsureCase/ReportCase') }";
+        });
+        $('.foreign').on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            window.location.href = " {: U('InsureCase/CheckCase') }";
+        });
+        $('.internal,.foreign').css('cursor', 'pointer');
+        switch ($('.usertype').val()) {
+            case '3':
+                $('.SellsRoomInclude').css('display', 'none');
+                break;
+            case '4':
+                $('.BranchInclude').css('display', 'none');
+                break;
+        }
+    });
+    </script>
+</body>
+
+</html>

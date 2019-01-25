@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>__WEBNAME__</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="__D__/css/skins/_all-skins.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <style type="text/css">
+    .small-box h3 {
+        font-size: 30px;
+        margin: 15px 15px 10px 10px;
+    }
+    </style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <include file="./Public/travelheader" />
+        <include file="./Public/HeadOfficeTravelSide" />
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    首 页
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> 首 页</a></li>
+                </ol>
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-aqua">
+                            <div class="inner user">
+                                <h3>用户管理</h3>
+                            </div>
+                            <div class="icon user">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="small-box-footer user">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="small-box bg-red">
+                            <div class="inner data">
+                                <h3>订单查询</h3>
+                            </div>
+                            <div class="icon data">
+                                <i class="ion ion-stats-bars"></i>
+                            </div>
+                            <div class="small-box-footer data">点击进入 <i class="fa fa-arrow-circle-right"></i></div>
+                        </div>
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+            </section>
+        </div>
+        <footer class="main-footer">
+            <div class="container" style="text-align: center;">
+                <include file="./Public/footer" />
+            </div>
+        </footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                </div>
+        </aside>
+        </div>
+        <!-- ./wrapper -->
+        <!-- jQuery 3 -->
+        <script src="__B__/jquery/dist/jquery.min.js"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+        $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.7 -->
+        <script src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="__D__/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="__D__/js/demo.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $('.user').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                window.location.href = "{:U('UserManage/HeadOfficeEditUserInfo')}";
+            });
+            $('.data').on('click', function(event) {
+                event.preventDefault();
+                /* Act on the event */
+                window.location.href = "{:U('DataStatistics/HeadOfficeIndex')}";
+            });
+            $('.user,.data').css('cursor', 'pointer');
+        });
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>__WEBNAME__</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script type="text/javascript" src="__B__/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="__D__/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="__B__/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="__P__/iCheck/icheck.min.js"></script>
+    <link rel="stylesheet" href="__B__/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="__B__/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="__D__/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="__D__/index.css">
+    <!-- iCheck -->
+    <!-- <link rel="stylesheet" href="__PLUGINS__/iCheck/square/blue.css"> -->
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition login-page">
+    <header>
+        <div class="login-box" style="BACKGROUND-COLOR: transparent;">
+            <h3 align="center"><b>__WEBNAME__</b></h3>
+            <div class="login-box-body" style="background-color: #4f4f90;color: #fff;">
+                <form id="loginForm" action="{:U('Login/login')}" method="post">
+                    <p class="login-box-msg">从这里登录您的帐号</p>
+                    <input type="text" value="" style="position: absolute;z-index: -1;" disabled />
+                    <input type="password" value="" style="position: absolute;z-index: -1;" disabled />
+                    <div class="form-group has-feedback">
+                        <input type="text" required="required" id="username" name="username" class="form-control" placeholder="这里输入帐号" style="BACKGROUND-COLOR: transparent;color:#FFFFFF;" autocomplete="off" maxlength="25">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" required="required" name="password" id="password" class="form-control" placeholder="这里输入密码" style="BACKGROUND-COLOR: transparent;color:#FFFFFF;" autocomplete="new-password" maxlength="25">
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <input type="password" style="position: absolute;z-index: -1;" disabled >
+                    <div class="form-group has-feedback">
+                        <input type="text" required="required" name="verify" class="form-control" id="verify" placeholder="输入验证码" style="BACKGROUND-COLOR: transparent;color:#FFFFFF;" maxlength="4">
+                        <span class="glyphicon glyphicon-barcode form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback verify" align="center">
+                        <img id="verifyImg" name="verifyImg" src="" onclick="updatVerify();" alt="点击刷新">
+                    </div>
+                    <!-- /.col -->
+                    <div class="form-group has-feedback">
+                        <button type="button" class="btn btn-outline btn-block btn-flat" onclick="rmbUserPwd()">登录</button>
+                    </div>
+                    <div class="form-group has-feedback" align="center">
+                        <input id="rmbUser" style="vertical-align: middle;" class="rmbUser icheckbox_square-blue iradio_square-blue" type="checkbox"><span style="font-size: 16px;vertical-align: middle;">&nbsp记住我的帐号</span>
+                    </div>
+                </form>
+                <a href="{:U('RegUser/index')}" style="text-align: center; color: #fff;">注册一个新帐号</a>
+                <br>
+                <a href="#" style="text-align: center; color: #fff;">密码重置</a>
+            </div>
+            <!-- login-box-body -->
+        </div>
+        <!-- login-box -->
+    </header>
+    <footer style="background-color: white;color:black;">
+        <div class="container" style="text-align: center;">
+            <include file="./Public/footer" />
+        </div>
+    </footer>
+    <script>
+    $(function() {
+        document.getElementById('username').value = $.cookie("username");
+        document.getElementById('password').value = $.cookie("password");
+        document.getElementById("rmbUser").checked = $.cookie("checkbox");
+        document.getElementById('verifyImg').src = "{:U('Login/verify')}";
+        $("#verify").attr("placeholder","输入验证码");
+        $("#verify").keypress(function(e) {
+            var code = event.keyCode;
+            if (13 == code) {
+                rmbUserPwd();
+            }
+        });
+    });
+
+    function updatVerify() {
+        document.getElementById('verifyImg').src ="";
+        document.getElementById('verifyImg').src = "{:U('Login/verify')}";
+    }
+
+    function rmbUserPwd() {
+        var username = $('#username').val();
+        var password = $('#password').val();
+        if (document.getElementById('rmbUser').checked == true) {
+            if (username != "" && password != "") {
+                $.cookie('username', username, { expires: 30 });
+                $.cookie('password', password, { expires: 30 });
+                $.cookie('checkbox', 'true', { expires: 30 });
+                $('#loginForm').submit();
+            }
+        } else {
+            $.cookie('username', null);
+            $.cookie('password', null);
+            $.cookie('checkbox', null);
+            $('#loginForm').submit();
+        }
+    }
+    </script>
+</body>
+
+</html>
